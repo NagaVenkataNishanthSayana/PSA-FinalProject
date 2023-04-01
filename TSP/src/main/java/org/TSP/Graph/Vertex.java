@@ -10,8 +10,8 @@ public class Vertex {
     public Vertex() {
     }
 
-    public Vertex(int degree, double latitude, double longitude) {
-        this.degree = degree;
+    public Vertex(String id, double latitude, double longitude) {
+        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
     }
