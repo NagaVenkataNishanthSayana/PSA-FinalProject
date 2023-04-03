@@ -4,33 +4,33 @@ import org.apache.lucene.util.SloppyMath;
 
 public class Edge {
 
-    private Vertex vertex1;
-    private Vertex vertex2;
+    private Vertex source;
+    private Vertex destinantion;
     private double weight;
 
-    public Edge(Vertex vertex1, Vertex vertex2) {
-        this.vertex1 = vertex1;
-        this.vertex2 = vertex2;
-        this.weight=getWeight();
+    public Edge(Vertex source, Vertex destinantion) {
+        this.source = source;
+        this.destinantion = destinantion;
+        this.weight=SloppyMath.haversinMeters(source.getLatitude(), source.getLongitude(), destinantion.getLatitude(), destinantion.getLongitude());
     }
 
-    private double getWeight(){
-        return SloppyMath.haversinMeters(vertex1.getLatitude(),vertex1.getLongitude(),vertex2.getLatitude(),vertex2.getLongitude());
+    public double getWeight(){
+        return weight;
     }
 
-    public Vertex getVertex1() {
-        return vertex1;
+    public Vertex getSource() {
+        return source;
     }
 
-    public void setVertex1(Vertex vertex1) {
-        this.vertex1 = vertex1;
+    public void setSource(Vertex source) {
+        this.source = source;
     }
 
-    public Vertex getVertex2() {
-        return vertex2;
+    public Vertex getDestinantion() {
+        return destinantion;
     }
 
-    public void setVertex2(Vertex vertex2) {
-        this.vertex2 = vertex2;
+    public void setDestinantion(Vertex destinantion) {
+        this.destinantion = destinantion;
     }
 }

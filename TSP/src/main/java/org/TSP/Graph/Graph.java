@@ -15,19 +15,32 @@ public class Graph {
         }
     }
 
-    public void addEdge(Edge e){
-        if(!graph.containsKey(e.getVertex1())){
-            graph.put(e.getVertex1(),new ArrayList<Edge>());
-        }
-        if(!graph.containsKey(e.getVertex2())){
-            graph.put(e.getVertex2(),new ArrayList<Edge>());
-        }
+    public void addEdge(Vertex source, Vertex destination){
 
-        graph.get(e.getVertex1()).add(e);
-        graph.get(e.getVertex2()).add(e);
+        if(!graph.containsKey(source)){
+            graph.put(source,new ArrayList<Edge>());
+        }
+        if(!graph.containsKey(destination)){
+            graph.put(destination,new ArrayList<Edge>());
+        }
+        graph.get(source).add(new Edge(source,destination));
+
+        graph.get(destination).add(new Edge(destination,source));
+
     }
 
-    public Map<Vertex, List<Edge>> getGraph(){
+    public List<Vertex> getAdjVertices(Vertex v){
+
+        List<Vertex> adj=new ArrayList<>();
+        for(Edge e:graph.get(v)){
+            adj.add(e.getDestinantion());
+        }
+
+        return adj;
+    }
+
+
+    public HashMap<Vertex, List<Edge>> getGraph(){
         return graph;
     }
 
