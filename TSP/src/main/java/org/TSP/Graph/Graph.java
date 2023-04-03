@@ -29,8 +29,14 @@ public class Graph {
 
     }
 
-    public List<Edge> getAdjVertices(Vertex v){
-        return graph.get(v);
+    public List<Vertex> getAdjVertices(Vertex v){
+
+        List<Vertex> adj=new ArrayList<>();
+        for(Edge e:graph.get(v)){
+            adj.add(e.getDestinantion());
+        }
+
+        return adj;
     }
 
 

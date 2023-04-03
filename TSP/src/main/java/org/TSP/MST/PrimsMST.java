@@ -5,32 +5,15 @@ import org.TSP.Graph.Vertex;
 
 import java.util.*;
 
-public class PrimMST {
+public class PrimsMST {
 
     public static HashMap<Vertex, Edge> prim(HashMap<Vertex, List<Edge>> graph, Vertex start){
-        HashMap<Vertex, Edge> tree = new HashMap<>();
+        HashMap<Vertex, Edge> mst = new HashMap<>();
         Set<Vertex> visited = new HashSet<>();
         PriorityQueue<Edge> heap = new PriorityQueue<>(new Comparator<Edge>() {
             @Override
-            public int compare(Edge o1, Edge o2) {
-                double difference= o1.getWeight()-o2.getWeight();
-
-                if (difference == 0) {
-
-                    // Both are equal
-                    return 0;
-                }
-                else if (difference < 0) {
-
-                    // obj1 < obj2
-                    return -1;
-                }
-                else {
-
-                    // obj1 > obj2
-                    return 1;
-                }
-
+            public int compare(Edge e1, Edge e2) {
+                return (int) (e1.getWeight()-e2.getWeight());
             }
         });
 
@@ -48,15 +31,15 @@ public class PrimMST {
             }
 
             visited.add(vertex);
-            tree.put(vertex, minEdge);
+            mst.put(vertex, minEdge);
 
             for (Edge edge : graph.get(vertex)) {
                 if (!visited.contains(edge.getDestinantion())) {
-                    heap.offer(edge);
+                    heap.add(edge);
                 }
             }
         }
 
-        return tree;
+        return mst;
     }
 }

@@ -25,7 +25,6 @@ public class FileIO {
                 while ((line = br.readLine()) != null)   //returns a Boolean value
                 {
                     String[] vertexDetails = line.split(splitBy);
-//                    System.out.println(count+" "+vertexDetails[1]+" "+vertexDetails[2]);
                     graph.addVertex(new Vertex(String.valueOf(count), Double.parseDouble(vertexDetails[1]), Double.parseDouble(vertexDetails[2])));
                     count++;
 
