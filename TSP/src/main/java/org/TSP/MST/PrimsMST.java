@@ -29,7 +29,7 @@ public class PrimsMST {
             if (visited.contains(vertex)) {
                 continue;
             }
-
+            minEdge.getSource().incrementDegree();
             visited.add(vertex);
             mst.put(vertex, minEdge);
 
