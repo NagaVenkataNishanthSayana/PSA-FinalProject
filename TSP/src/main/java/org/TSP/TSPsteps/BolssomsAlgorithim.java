@@ -1,4 +1,4 @@
-package org.TSP.MWPM;
+package org.TSP.TSPsteps;
 
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Graph;

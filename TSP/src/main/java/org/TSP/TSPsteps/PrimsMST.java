@@ -1,4 +1,4 @@
-package org.TSP.MST;
+package org.TSP.TSPsteps;
 
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
@@ -17,7 +17,7 @@ public class PrimsMST {
             }
         });
 
-        visited.add(start);
+
         for (Edge edge : graph.get(start)) {
             heap.add(edge);
         }
@@ -30,6 +30,8 @@ public class PrimsMST {
                 continue;
             }
             minEdge.getSource().incrementDegree();
+            minEdge.getDestinantion().incrementDegree();
+
             visited.add(vertex);
             mst.put(vertex, minEdge);
 
