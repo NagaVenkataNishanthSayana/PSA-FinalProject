@@ -9,6 +9,7 @@ public class TSPSolver {
     public static int solve(HashMap<Vertex, List<Edge>> multiGraph) {
         // Step 1: Generate an Eulerian tour
         List<Edge> eulerianTour = EulerianTour.generate(multiGraph);
+        System.out.println("Eulerian Tour: "+eulerianTour.size());
         if (eulerianTour == null) {
             return -1; // The input graph is not suitable for TSP
         }
@@ -26,6 +27,7 @@ public class TSPSolver {
                 visited.add(edge.getDestinantion());
             }
         }
+        System.out.println("Hamilton Circuit: "+hamiltonianCircuit.size());
 
         // Step 3: Calculate the total weight of the Hamiltonian circuit
         int totalWeight = 0;

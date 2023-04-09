@@ -7,10 +7,14 @@ import java.util.*;
 
 public class EulerianTour {
 
-    public static List<Edge> generate(HashMap<Vertex, List<Edge>> multiGraph) {
+    public static List<Edge> generate(HashMap<Vertex, List<Edge>> graph) {
         // Check if the multi graph is connected and has only even-degree vertices
-        if (!isConnected(multiGraph) || !hasEvenDegreeVertices(multiGraph)) {
+        if (!isConnected(graph) || !hasEvenDegreeVertices(graph)) {
             return null;
+        }
+        HashMap<Vertex, List<Edge>> multiGraph=new HashMap<>();
+        for (Vertex v : graph.keySet()) {
+            multiGraph.put(v, new ArrayList<>(graph.get(v)));
         }
 
         // Initialize an empty list to store the edges in the Eulerian tour
