@@ -3,10 +3,12 @@ package org.TSP;
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Graph;
 import org.TSP.Graph.Vertex;
+import org.TSP.TSPsteps.MultiGraph;
 import org.TSP.TSPsteps.PrimsMST;
 import org.TSP.TSPsteps.BolssomsAlgorithim;
 import org.TSP.util.FileIO;
 import org.TSP.util.FormGraph;
+import org.TSP.util.GraphUtils;
 
 import java.util.*;
 
@@ -21,20 +23,20 @@ public class Main {
         Vertex start=map.keySet().iterator().next();
 
         HashMap<Vertex,Edge> minSpanTree= PrimsMST.prim(map,start);
-
-        double mstPathCost=0;
-
-        //Isolating Odd vertices
-        Set<Vertex> oddVertices=new HashSet<>();
+        int count=0;
         for(Vertex v:minSpanTree.keySet()){
-            if(v.getDegree()%2!=0) oddVertices.add(v);
-            mstPathCost+=minSpanTree.get(v).getWeight();
+            if(v.getDegree()%2!=0) count++;
         }
-        System.out.println(mstPathCost);
+        System.out.println(count);
 
-        //Forming a graph from Odd Vertices
-        Graph oddVerticesGraph= FormGraph.getGraph(oddVertices);
+        Set<Vertex> oddVertices= GraphUtils.findVerticesWithOddDegree(minSpanTree);
+        System.out.println(oddVertices.size());
 
-        List<Edge> minWeightPM= BolssomsAlgorithim.findMWPM(oddVerticesGraph);
+        List<Edge> perfectMatchedEdges=GraphUtils.findPerfectMatching(map,oddVertices);
+        System.out.println(perfectMatchedEdges.size());
+
+        HashMap<Vertex,List<Edge>> multiGraph= MultiGraph.formMultiGraph(minSpanTree,perfectMatchedEdges);
+        System.out.println(multiGraph.size());
+
     }
 }
