@@ -20,22 +20,21 @@ public class Main {
         Graph graph=fileIO.getConnectedGraph();
         HashMap<Vertex, List<Edge>> map=graph.getGraph();
 
-
         Vertex start=map.keySet().iterator().next();
+        System.out.println("MST Start point:"+start.getId());
         HashMap<Vertex,List<Edge>> minSpanTree= PrimsMST.prim(map,start);
 
+        Set<Vertex> oddVertices= GraphUtils.findVerticesWithOddDegree(minSpanTree);
+        System.out.println("odd vertices:" + oddVertices.size());
 
-//        Set<Vertex> oddVertices= GraphUtils.findVerticesWithOddDegree(minSpanTree);
-//        System.out.println("odd vertices:" + oddVertices.size());
-//
-//        List<Edge> perfectMatchedEdges=GraphUtils.findPerfectMatching(map,oddVertices);
-//        System.out.println("perfect matched edges:" + perfectMatchedEdges.size());
-//
-//        HashMap<Vertex,List<Edge>> multiGraph= MultiGraph.formMultiGraph(minSpanTree,perfectMatchedEdges);
-//        System.out.println("multi graph:" + multiGraph.size());
-//
-//        int tspSolution = TSPSolver.solve(multiGraph);
-//        System.out.println("Total Weight:" + tspSolution);
+        List<Edge> perfectMatchedEdges=GraphUtils.findPerfectMatching(map,oddVertices);
+        System.out.println("perfect matched edges:" + perfectMatchedEdges.size());
+
+        HashMap<Vertex,List<Edge>> multiGraph= MultiGraph.formMultiGraph(minSpanTree,perfectMatchedEdges);
+        System.out.println("multi graph:" + multiGraph.size());
+
+        int tspSolution = TSPSolver.solve(multiGraph);
+        System.out.println("TSP Weight:" + tspSolution);
 
     }
 }
