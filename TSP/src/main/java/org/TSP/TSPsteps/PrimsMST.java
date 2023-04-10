@@ -20,6 +20,7 @@ public class PrimsMST {
         for (Edge edge : graph.get(start)) {
             heap.add(edge);
         }
+        visited.add(start);
         int mstWeight=0;
         while (!heap.isEmpty()) {
 
@@ -28,13 +29,13 @@ public class PrimsMST {
             Vertex source=minEdge.getSource();
             Vertex destination = minEdge.getDestinantion();
 
-            //Check if the Source already exists
+            //Skip Edge if the Destination already exists
             if (visited.contains(destination)) {
                 continue;
             }
 
-            //Add Source vertex to the visited set
-            visited.add(source);
+            //Add Destination vertex to the visited set
+            visited.add(destination);
 
             //Add Source and Destination vertices into the MST MAP
             if(!mst.containsKey(source)){
