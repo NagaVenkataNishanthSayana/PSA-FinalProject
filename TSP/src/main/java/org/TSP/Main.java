@@ -20,26 +20,24 @@ public class Main {
         Graph graph=fileIO.getConnectedGraph();
         HashMap<Vertex, List<Edge>> map=graph.getGraph();
 
-        Vertex start=map.keySet().iterator().next();
-
-        HashMap<Vertex,Edge> minSpanTree= PrimsMST.prim(map,start);
-        int count=0;
-        for(Vertex v:minSpanTree.keySet()){
-            if(v.getDegree()%2!=0) count++;
+        for(Vertex v:map.keySet()){
+            System.out.println("Start point:"+v.getId());
+            HashMap<Vertex,List<Edge>> minSpanTree= PrimsMST.prim(map,v);
+            System.out.println("MST Size:"+minSpanTree.size());
         }
-        System.out.println("Count:" + count);
 
-        Set<Vertex> oddVertices= GraphUtils.findVerticesWithOddDegree(minSpanTree);
-        System.out.println("odd vertices:" + oddVertices.size());
 
-        List<Edge> perfectMatchedEdges=GraphUtils.findPerfectMatching(map,oddVertices);
-        System.out.println("perfect matched edges" + perfectMatchedEdges.size());
-
-        HashMap<Vertex,List<Edge>> multiGraph= MultiGraph.formMultiGraph(minSpanTree,perfectMatchedEdges);
-        System.out.println("multi graph" + multiGraph.size());
-
-        int tspSolution = TSPSolver.solve(multiGraph);
-        System.out.println("Total Weight: " + tspSolution);
+//        Set<Vertex> oddVertices= GraphUtils.findVerticesWithOddDegree(minSpanTree);
+//        System.out.println("odd vertices:" + oddVertices.size());
+//
+//        List<Edge> perfectMatchedEdges=GraphUtils.findPerfectMatching(map,oddVertices);
+//        System.out.println("perfect matched edges:" + perfectMatchedEdges.size());
+//
+//        HashMap<Vertex,List<Edge>> multiGraph= MultiGraph.formMultiGraph(minSpanTree,perfectMatchedEdges);
+//        System.out.println("multi graph:" + multiGraph.size());
+//
+//        int tspSolution = TSPSolver.solve(multiGraph);
+//        System.out.println("Total Weight:" + tspSolution);
 
     }
 }

@@ -10,29 +10,26 @@ public class Graph {
     HashMap<Vertex, List<Edge>> graph=new HashMap<>();
 
     public void addVertex(Vertex v){
-        if(!graph.containsKey(v)){
-            graph.put(v,new ArrayList<Edge>());
+        if(!this.graph.containsKey(v)){
+            this.graph.put(v,new ArrayList<Edge>());
         }
     }
 
     public void addEdge(Vertex source, Vertex destination){
-
-        if(!graph.containsKey(source)){
-            graph.put(source,new ArrayList<Edge>());
+        if(!this.graph.get(source).contains(destination)){
+            this.graph.get(source).add(new Edge(source,destination));
         }
-        if(!graph.containsKey(destination)){
-            graph.put(destination,new ArrayList<Edge>());
-        }
-        graph.get(source).add(new Edge(source,destination));
 
-        graph.get(destination).add(new Edge(destination,source));
+        if(!this.graph.get(destination).contains(source)){
+            this.graph.get(destination).add(new Edge(destination,source));
+        }
 
     }
 
     public List<Vertex> getAdjVertices(Vertex v){
 
         List<Vertex> adj=new ArrayList<>();
-        for(Edge e:graph.get(v)){
+        for(Edge e:this.graph.get(v)){
             adj.add(e.getDestinantion());
         }
 
@@ -41,7 +38,7 @@ public class Graph {
 
 
     public HashMap<Vertex, List<Edge>> getGraph(){
-        return graph;
+        return this.graph;
     }
 
 }
