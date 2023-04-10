@@ -2,7 +2,7 @@ package org.TSP.TSPsteps;
 
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
-
+import org.TSP.TSPsteps.twoOpt;
 import java.util.*;
 
 public class TSPSolver {
@@ -15,16 +15,13 @@ public class TSPSolver {
         }
 
         // Step 2: Remove duplicates to obtain a Hamiltonian circuit
-        List<Vertex> hamiltonianCircuit = new ArrayList<>();
-        Set<Vertex> visited = new HashSet<>();
-        for (Vertex vertex : eulerianTour) {
-            if (!visited.contains(vertex)) {
-                hamiltonianCircuit.add(vertex);
-                visited.add(vertex);
-            }
-
+        List<Vertex> hamiltonianCircuit = obtainHamiltonianCircuit(eulerianTour);
+        System.out.println("Hamilton Circuit size:"+hamiltonianCircuit.size());
+        System.out.print("Hamilton Circuit tour: [");
+        for (Vertex vertex : hamiltonianCircuit) {
+            System.out.print(vertex.getId() + " ");
         }
-        System.out.println("Hamilton Circuit:"+hamiltonianCircuit.size());
+        System.out.println("]");
 
         // Step 3: Calculate the total weight of the Hamiltonian circuit
         int totalWeight = 0;
@@ -51,7 +48,58 @@ public class TSPSolver {
             }
         }
 
+        // use two opt
+
+        twoOptTour(hamiltonianCircuit, multiGraph);
         // Step 4: Return the total weight as the TSP solution
         return totalWeight;
+    }
+
+    public static List<Vertex> obtainHamiltonianCircuit(List<Vertex> eulerianTour) {
+        List<Vertex> hamiltonianCircuit = new ArrayList<>();
+        Set<Vertex> visitedVertices = new HashSet<>();
+        for (Vertex vertex : eulerianTour) {
+            if (!visitedVertices.contains(vertex)) {
+                hamiltonianCircuit.add(vertex);
+                visitedVertices.add(vertex);
+            }
+        }
+        return hamiltonianCircuit;
+    }
+
+    public static void twoOptTour(List<Vertex> tour, HashMap<Vertex, List<Edge>> multiGraph) {
+        List<Vertex> t = twoOpt.twoOpt(tour, multiGraph);
+        System.out.println("twoOpt size:" + t.size());
+        System.out.print("two opt tour: [");
+        for (Vertex vertex : t) {
+            System.out.print(vertex.getId() + " ");
+        }
+        System.out.println("]");
+
+        int tw = 0;
+        Vertex prev = t.get(0);
+        for (int i = 1; i < t.size(); i++) {
+            Vertex current = t.get(i);
+            List<Edge> edges = multiGraph.get(prev);
+            for (Edge edge : edges) {
+                if (edge.getDestination().equals(current)) {
+                    tw += edge.getWeight();
+                    break;
+                }
+            }
+            prev = current;
+        }
+
+        Vertex first = t.get(0);
+        Vertex last = t.get(t.size() - 1);
+        List<Edge> edges = multiGraph.get(last);
+        for (Edge edge : edges) {
+            if (edge.getDestination().equals(first)) {
+                tw += edge.getWeight();
+                break;
+            }
+        }
+
+        System.out.println("twoOpt weight:" + tw);
     }
 }
