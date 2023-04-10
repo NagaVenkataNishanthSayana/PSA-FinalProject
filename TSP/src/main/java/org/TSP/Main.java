@@ -34,7 +34,7 @@ public class Main {
         System.out.println("multi graph:" + multiGraph.size());
 
         int tspSolution = TSPSolver.solve(multiGraph);
-        System.out.println("Total Weight:" + tspSolution);
+        System.out.println("TSP Weight:" + tspSolution);
 
     }
 }

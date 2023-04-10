@@ -5,12 +5,12 @@ import org.apache.lucene.util.SloppyMath;
 public class Edge {
 
     private Vertex source;
-    private Vertex destinantion;
+    private Vertex destination;
     private double weight;
 
     public Edge(Vertex source, Vertex destination) {
         this.source = source;
-        this.destinantion = destination;
+        this.destination = destination;
         this.weight=SloppyMath.haversinMeters(source.getLatitude(), source.getLongitude(), destination.getLatitude(), destination.getLongitude());
     }
 
@@ -26,11 +26,11 @@ public class Edge {
         this.source = source;
     }
 
-    public Vertex getDestinantion() {
-        return destinantion;
+    public Vertex getDestination() {
+        return destination;
     }
 
-    public void setDestinantion(Vertex destinantion) {
-        this.destinantion = destinantion;
+    public void setDestination(Vertex destination) {
+        this.destination = destination;
     }
 }

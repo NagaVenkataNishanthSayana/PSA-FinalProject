@@ -23,7 +23,7 @@ public class MultiGraph {
         // Reverse perfect matching edges and add them to the new graph
         for (Edge edge : perfectMatchedEdges) {
             Vertex source = edge.getSource();
-            Vertex destination = edge.getDestinantion();
+            Vertex destination = edge.getDestination();
             evenDegreeGraph.get(source).add(edge);
             evenDegreeGraph.get(destination).add(new Edge(destination, source));
         }

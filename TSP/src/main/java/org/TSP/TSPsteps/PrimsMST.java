@@ -27,7 +27,7 @@ public class PrimsMST {
             //Pop out the Min weighted Edge
             Edge minEdge = heap.poll();
             Vertex source=minEdge.getSource();
-            Vertex destination = minEdge.getDestinantion();
+            Vertex destination = minEdge.getDestination();
 
             //Skip Edge if the Destination already exists
             if (visited.contains(destination)) {
@@ -65,7 +65,7 @@ public class PrimsMST {
 
             //Put all edges starting from Destination into the Heap
             for (Edge edge : graph.get(destination)) {
-                if (!visited.contains(edge.getDestinantion())) {
+                if (!visited.contains(edge.getDestination())) {
                     heap.add(edge);
                 }
             }

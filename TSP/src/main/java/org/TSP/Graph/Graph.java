@@ -3,7 +3,6 @@ package org.TSP.Graph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Graph {
 
@@ -30,7 +29,7 @@ public class Graph {
 
         List<Vertex> adj=new ArrayList<>();
         for(Edge e:this.graph.get(v)){
-            adj.add(e.getDestinantion());
+            adj.add(e.getDestination());
         }
 
         return adj;

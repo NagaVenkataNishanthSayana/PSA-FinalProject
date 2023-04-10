@@ -23,7 +23,7 @@ public class GreedyMatching {
         // Iteratively add the lowest-weight edge to the matching
         for (Edge e : edges) {
             Vertex u = e.getSource();
-            Vertex v = e.getDestinantion();
+            Vertex v = e.getDestination();
             if (unmatchedVertices.contains(u) && unmatchedVertices.contains(v)) {
                 matching.add(e);
                 unmatchedVertices.remove(u);

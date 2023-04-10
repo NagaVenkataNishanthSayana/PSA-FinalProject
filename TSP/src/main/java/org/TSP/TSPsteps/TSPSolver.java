@@ -8,7 +8,7 @@ import java.util.*;
 public class TSPSolver {
     public static int solve(HashMap<Vertex, List<Edge>> multiGraph) {
         // Step 1: Generate an Eulerian tour
-        List<Edge> eulerianTour = EulerianTour.generate(multiGraph);
+        List<Vertex> eulerianTour = EulerianTour.generate(multiGraph);
         System.out.println("Eulerian Tour:"+eulerianTour.size());
         if (eulerianTour == null) {
             return -1; // The input graph is not suitable for TSP
@@ -17,15 +17,12 @@ public class TSPSolver {
         // Step 2: Remove duplicates to obtain a Hamiltonian circuit
         List<Vertex> hamiltonianCircuit = new ArrayList<>();
         Set<Vertex> visited = new HashSet<>();
-        for (Edge edge : eulerianTour) {
-            if (!visited.contains(edge.getSource())) {
-                hamiltonianCircuit.add(edge.getSource());
-                visited.add(edge.getSource());
+        for (Vertex vertex : eulerianTour) {
+            if (!visited.contains(vertex)) {
+                hamiltonianCircuit.add(vertex);
+                visited.add(vertex);
             }
-            if (!visited.contains(edge.getDestinantion())) {
-                hamiltonianCircuit.add(edge.getDestinantion());
-                visited.add(edge.getDestinantion());
-            }
+
         }
         System.out.println("Hamilton Circuit:"+hamiltonianCircuit.size());
 
@@ -37,7 +34,7 @@ public class TSPSolver {
             Vertex destination = hamiltonianCircuit.get(i + 1);
             List<Edge> edges = multiGraph.get(source);
             for (Edge edge : edges) {
-                if (edge.getDestinantion().equals(destination)) {
+                if (edge.getDestination().equals(destination)) {
                     totalWeight += edge.getWeight();
                     break;
                 }
@@ -48,7 +45,7 @@ public class TSPSolver {
         Vertex lastVertex = hamiltonianCircuit.get(hamiltonianCircuit.size() - 1);
         List<Edge> edges = multiGraph.get(lastVertex);
         for (Edge edge : edges) {
-            if (edge.getDestinantion().equals(firstVertex)) {
+            if (edge.getDestination().equals(firstVertex)) {
                 totalWeight += edge.getWeight();
                 break;
             }

@@ -7,45 +7,65 @@ import java.util.*;
 
 public class EulerianTour {
 
-    public static List<Edge> generate(HashMap<Vertex, List<Edge>> graph) {
+    public static List<Vertex> generate(HashMap<Vertex, List<Edge>> graph) {
         // Check if the multi graph is connected and has only even-degree vertices
         if (!isConnected(graph) || !hasEvenDegreeVertices(graph)) {
             return null;
         }
         HashMap<Vertex, List<Edge>> multiGraph=new HashMap<>();
         for (Vertex v : graph.keySet()) {
-            multiGraph.put(v, new ArrayList<>(graph.get(v)));
+            multiGraph.put(v, new ArrayList<Edge>(graph.get(v)));
         }
 
         // Initialize an empty list to store the edges in the Eulerian tour
-        List<Edge> eulerianTour = new ArrayList<>();
+//        List<Edge> eulerianTour = new ArrayList<>();
+        List<Vertex> eulerianPath = new ArrayList<>();
 
         // Choose any vertex in the multi graph as the starting vertex
         Vertex startVertex = multiGraph.keySet().iterator().next();
 
         // Initialize a stack to keep track of the current path
-        Stack<Vertex> path = new Stack<>();
-        path.push(startVertex);
+//        Stack<Vertex> path = new Stack<>();
+//        path.push(startVertex);
 
         // Traverse the multi graph using a depth-first search
-        while (!path.isEmpty()) {
-            Vertex vertex = path.peek();
-            List<Edge> edges = multiGraph.get(vertex);
+//        while (!path.isEmpty()) {
+//            Vertex vertex = path.peek();
+//            List<Edge> edges = multiGraph.get(vertex);
+//
+//            if (!edges.isEmpty()) {
+//                // Choose any unvisited edge and traverse it
+//                Edge edge = edges.get(0);
+//                edges.remove(0);
+//                multiGraph.get(edge.getDestinantion()).removeIf(e -> e.getSource().equals(vertex) && e.getDestinantion().equals(edge.getDestinantion()));
+//                eulerianTour.add(edge);
+//                path.push(edge.getDestinantion());
+//            } else {
+//                // Backtrack to the previous vertex that has unvisited edges
+//                path.pop();
+//            }
+//        }
+        Set<Edge> visitedEdge=new HashSet<>();
+        Stack<Vertex> st = new Stack<>();
+        st.push(startVertex);
+        eulerianPath.add(startVertex);
 
-            if (!edges.isEmpty()) {
-                // Choose any unvisited edge and traverse it
-                Edge edge = edges.get(0);
-                edges.remove(0);
-                multiGraph.get(edge.getDestinantion()).removeIf(e -> e.getSource().equals(vertex) && e.getDestinantion().equals(edge.getDestinantion()));
-                eulerianTour.add(edge);
-                path.push(edge.getDestinantion());
-            } else {
-                // Backtrack to the previous vertex that has unvisited edges
-                path.pop();
-            }
+        while(!st.isEmpty()){
+            Vertex source=st.pop();
+            eulerianPath.add(source);
+            List<Edge> list=multiGraph.get(source);
+           for(int i=0;i<list.size();i++){
+               Vertex destination=list.get(i).getDestination();
+               Edge edge=list.get(i);
+               if(!visitedEdge.contains(edge)){
+                   st.push(destination);
+                   visitedEdge.add(edge);
+               }
+           }
+
         }
 
-        return eulerianTour;
+        return eulerianPath;
     }
 
     private static boolean isConnected(HashMap<Vertex, List<Edge>> multiGraph) {
@@ -60,7 +80,7 @@ public class EulerianTour {
             visited.add(vertex);
 
             for (Edge edge : multiGraph.get(vertex)) {
-                Vertex adjacentVertex = edge.getDestinantion();
+                Vertex adjacentVertex = edge.getDestination();
 
                 if (!visited.contains(adjacentVertex)) {
                     stack.push(adjacentVertex);
