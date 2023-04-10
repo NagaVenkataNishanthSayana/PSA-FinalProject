@@ -6,21 +6,11 @@ import org.TSP.TSPsteps.GreedyMatching;
 
 public class GraphUtils {
 
-    public static Set<Vertex> findVerticesWithOddDegree(HashMap<Vertex, Edge> mst) {
+    public static Set<Vertex> findVerticesWithOddDegree(HashMap<Vertex, List<Edge>> mst) {
         Set<Vertex> oddVertices = new HashSet<>();
-        Map<Vertex, Integer> degreeMap = new HashMap<>();
-
-        // First, count the degree of each vertex in the MST
-        for (Edge e : mst.values()) {
-            Vertex u = e.getSource();
-            Vertex v = e.getDestinantion();
-            degreeMap.put(u, degreeMap.getOrDefault(u, 0) + 1);
-            degreeMap.put(v, degreeMap.getOrDefault(v, 0) + 1);
-        }
-
-        // Then, add all vertices with odd degree to the set
-        for (Vertex v : degreeMap.keySet()) {
-            if (degreeMap.get(v) % 2 == 1) {
+        // Iterate through all vertices in the MST and add the odd vertices in a Set
+        for (Vertex v : mst.keySet()) {
+            if(v.getDegree()%2!=0){
                 oddVertices.add(v);
             }
         }
@@ -34,7 +24,6 @@ public class GraphUtils {
         for (Vertex v : vertices) {
             subgraph.put(v, graph.get(v));
         }
-
         return subgraph;
     }
 
