@@ -10,7 +10,7 @@ public class Vertex {
     public Vertex() {
     }
 
-    public Vertex(String id, double latitude, double longitude) {
+    public Vertex(String id, double longitude, double latitude) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
