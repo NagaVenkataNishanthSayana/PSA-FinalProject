@@ -7,41 +7,69 @@ import java.util.*;
 
 public class PrimsMST {
 
-    public static HashMap<Vertex, Edge> prim(HashMap<Vertex, List<Edge>> graph, Vertex start){
-        HashMap<Vertex, Edge> mst = new HashMap<>();
+    public static HashMap<Vertex, List<Edge>> prim(HashMap<Vertex, List<Edge>> graph, Vertex start){
+        HashMap<Vertex, List<Edge>> mst = new HashMap<>();
         Set<Vertex> visited = new HashSet<>();
         PriorityQueue<Edge> heap = new PriorityQueue<>(new Comparator<Edge>() {
             @Override
             public int compare(Edge e1, Edge e2) {
-                return (int) (e1.getWeight()-e2.getWeight());
+                return Double.compare(e1.getWeight(), e2.getWeight());
             }
         });
-
 
         for (Edge edge : graph.get(start)) {
             heap.add(edge);
         }
-
+        int mstWeight=0;
         while (!heap.isEmpty()) {
-            Edge minEdge = heap.poll();
-            Vertex vertex = minEdge.getDestinantion();
 
-            if (visited.contains(vertex)) {
+            //Pop out the Min weighted Edge
+            Edge minEdge = heap.poll();
+            Vertex source=minEdge.getSource();
+            Vertex destination = minEdge.getDestinantion();
+
+            //Check if the Source already exists
+            if (visited.contains(destination)) {
                 continue;
             }
-            minEdge.getSource().incrementDegree();
-            minEdge.getDestinantion().incrementDegree();
 
-            visited.add(vertex);
-            mst.put(vertex, minEdge);
+            //Add Source vertex to the visited set
+            visited.add(source);
 
-            for (Edge edge : graph.get(vertex)) {
+            //Add Source and Destination vertices into the MST MAP
+            if(!mst.containsKey(source)){
+                mst.put(source,new ArrayList<Edge>());
+            }
+            if(!mst.containsKey(destination)){
+                mst.put(destination,new ArrayList<Edge>());
+            }
+
+
+
+            //Add edges to Source and Destination vertices
+            if(!mst.get(source).contains(minEdge)){
+                mst.get(source).add(minEdge);
+            }
+
+            if(!mst.get(destination).contains(minEdge)){
+                mst.get(destination).add(minEdge);
+            }
+
+            //Calculating MST cost
+            mstWeight+=minEdge.getWeight();
+
+            //Increment Source and destination Degrees
+            source.incrementDegree();
+            destination.incrementDegree();
+
+            //Put all edges starting from Destination into the Heap
+            for (Edge edge : graph.get(destination)) {
                 if (!visited.contains(edge.getDestinantion())) {
                     heap.add(edge);
                 }
             }
         }
-
+        System.out.println("MST Weight:"+mstWeight);
         return mst;
     }
 }

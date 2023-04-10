@@ -8,10 +8,10 @@ public class Edge {
     private Vertex destinantion;
     private double weight;
 
-    public Edge(Vertex source, Vertex destinantion) {
+    public Edge(Vertex source, Vertex destination) {
         this.source = source;
-        this.destinantion = destinantion;
-        this.weight=SloppyMath.haversinMeters(source.getLatitude(), source.getLongitude(), destinantion.getLatitude(), destinantion.getLongitude());
+        this.destinantion = destination;
+        this.weight=SloppyMath.haversinMeters(source.getLatitude(), source.getLongitude(), destination.getLatitude(), destination.getLongitude());
     }
 
     public double getWeight(){

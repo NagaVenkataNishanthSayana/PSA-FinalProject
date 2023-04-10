@@ -20,7 +20,7 @@ public class FormGraph {
         for (Vertex source : disconnectedGraph.keySet()) {
             for (Vertex destination : disconnectedGraph.keySet()) {
                 if (source != destination) {
-                    graph.addEdge(source, destination);
+                    disconnectedGraph.get(source).add(new Edge(source,destination));
                 }
             }
         }

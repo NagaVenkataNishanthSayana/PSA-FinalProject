@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class FileIO {
                 br.readLine();
                 while ((line = br.readLine()) != null)   //returns a Boolean value
                 {
+//                    System.out.println(line);
                     String[] vertexDetails = line.split(splitBy);
                     graph.addVertex(new Vertex(String.valueOf(count), Double.parseDouble(vertexDetails[1]), Double.parseDouble(vertexDetails[2])));
                     count++;
@@ -37,9 +39,10 @@ public class FileIO {
 
             HashMap<Vertex, List<Edge>> disconnectedGraph = graph.getGraph();
             for (Vertex source : disconnectedGraph.keySet()) {
+                disconnectedGraph.put(source,new ArrayList<Edge>());
                 for (Vertex destination : disconnectedGraph.keySet()) {
                     if (source != destination) {
-                        graph.addEdge(source, destination);
+                        disconnectedGraph.get(source).add(new Edge(source,destination));
                     }
                 }
             }
