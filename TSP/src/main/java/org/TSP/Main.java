@@ -20,11 +20,9 @@ public class Main {
         Graph graph=fileIO.getConnectedGraph();
         HashMap<Vertex, List<Edge>> map=graph.getGraph();
 
-        for(Vertex v:map.keySet()){
-            System.out.println("Start point:"+v.getId());
-            HashMap<Vertex,List<Edge>> minSpanTree= PrimsMST.prim(map,v);
-            System.out.println("MST Size:"+minSpanTree.size());
-        }
+
+        Vertex start=map.keySet().iterator().next();
+        HashMap<Vertex,List<Edge>> minSpanTree= PrimsMST.prim(map,start);
 
 
 //        Set<Vertex> oddVertices= GraphUtils.findVerticesWithOddDegree(minSpanTree);
