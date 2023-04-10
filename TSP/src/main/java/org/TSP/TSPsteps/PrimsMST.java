@@ -53,7 +53,7 @@ public class PrimsMST {
             }
 
             if(!mst.get(destination).contains(minEdge)){
-                mst.get(destination).add(minEdge);
+                mst.get(destination).add(new Edge(destination,source));
             }
 
             //Calculating MST cost
