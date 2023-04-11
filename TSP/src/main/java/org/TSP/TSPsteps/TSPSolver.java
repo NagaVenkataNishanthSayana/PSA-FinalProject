@@ -6,9 +6,9 @@ import org.TSP.TSPsteps.twoOpt;
 import java.util.*;
 
 public class TSPSolver {
-    public static int solve(HashMap<Vertex, List<Edge>> multiGraph) {
+    public static int solve(HashMap<Vertex, List<Edge>> graph) {
         // Step 1: Generate an Eulerian tour
-        List<Vertex> eulerianTour = EulerianTour.generate(multiGraph);
+        List<Vertex> eulerianTour = EulerianTour.generate(graph);
         System.out.println("Eulerian Tour:"+eulerianTour.size());
         if (eulerianTour == null) {
             return -1; // The input graph is not suitable for TSP
@@ -17,22 +17,24 @@ public class TSPSolver {
         // Step 2: Remove duplicates to obtain a Hamiltonian circuit
         List<Vertex> hamiltonianCircuit = obtainHamiltonianCircuit(eulerianTour);
         System.out.println("Hamilton Circuit size:"+hamiltonianCircuit.size());
-        System.out.print("Hamilton Circuit tour: [");
-        for (Vertex vertex : hamiltonianCircuit) {
-            System.out.print(vertex.getId() + " ");
-        }
-        System.out.println("]");
+//        System.out.print("Hamilton Circuit tour: [");
+//        for (Vertex vertex : hamiltonianCircuit) {
+//            System.out.print(vertex.getId() + " ");
+//        }
+//        System.out.println("]");
 
         // Step 3: Calculate the total weight of the Hamiltonian circuit
         int totalWeight = 0;
+        int edgeCount=0;
         for (int i = 0; i < hamiltonianCircuit.size() - 1; i++) {
             Vertex source = hamiltonianCircuit.get(i);
 //            System.out.print(source.getId()+", ");
             Vertex destination = hamiltonianCircuit.get(i + 1);
-            List<Edge> edges = multiGraph.get(source);
+            List<Edge> edges = graph.get(source);
             for (Edge edge : edges) {
                 if (edge.getDestination().equals(destination)) {
                     totalWeight += edge.getWeight();
+                    edgeCount++;
                     break;
                 }
             }
@@ -40,17 +42,17 @@ public class TSPSolver {
         // Add the weight of the last edge connecting the last vertex to the first vertex
         Vertex firstVertex = hamiltonianCircuit.get(0);
         Vertex lastVertex = hamiltonianCircuit.get(hamiltonianCircuit.size() - 1);
-        List<Edge> edges = multiGraph.get(lastVertex);
+        List<Edge> edges = graph.get(lastVertex);
         for (Edge edge : edges) {
             if (edge.getDestination().equals(firstVertex)) {
                 totalWeight += edge.getWeight();
                 break;
             }
         }
-
+        System.out.println("Edge Count:"+edgeCount);
         // use two opt
 
-        twoOptTour(hamiltonianCircuit, multiGraph);
+        twoOptTour(hamiltonianCircuit, graph);
         // Step 4: Return the total weight as the TSP solution
         return totalWeight;
     }
@@ -67,23 +69,25 @@ public class TSPSolver {
         return hamiltonianCircuit;
     }
 
-    public static void twoOptTour(List<Vertex> tour, HashMap<Vertex, List<Edge>> multiGraph) {
-        List<Vertex> t = twoOpt.twoOpt(tour, multiGraph);
+    public static void twoOptTour(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph) {
+        List<Vertex> t = twoOpt.twoOpt(tour, graph);
         System.out.println("twoOpt size:" + t.size());
-        System.out.print("two opt tour: [");
-        for (Vertex vertex : t) {
-            System.out.print(vertex.getId() + " ");
-        }
-        System.out.println("]");
+//        System.out.print("two opt tour: [");
+//        for (Vertex vertex : t) {
+//            System.out.print(vertex.getId() + " ");
+//        }
+//        System.out.println("]");
 
         int tw = 0;
+        int edgeCount=0;
         Vertex prev = t.get(0);
         for (int i = 1; i < t.size(); i++) {
             Vertex current = t.get(i);
-            List<Edge> edges = multiGraph.get(prev);
+            List<Edge> edges = graph.get(prev);
             for (Edge edge : edges) {
                 if (edge.getDestination().equals(current)) {
                     tw += edge.getWeight();
+                    edgeCount++;
                     break;
                 }
             }
@@ -92,14 +96,14 @@ public class TSPSolver {
 
         Vertex first = t.get(0);
         Vertex last = t.get(t.size() - 1);
-        List<Edge> edges = multiGraph.get(last);
+        List<Edge> edges = graph.get(last);
         for (Edge edge : edges) {
             if (edge.getDestination().equals(first)) {
                 tw += edge.getWeight();
                 break;
             }
         }
-
+        System.out.println("2-OPT Edge Count:"+edgeCount);
         System.out.println("twoOpt weight:" + tw);
     }
 }

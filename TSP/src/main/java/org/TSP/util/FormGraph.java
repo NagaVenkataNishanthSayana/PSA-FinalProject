@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public class FormGraph {
-    public static Graph getGraph(Set<Vertex> oddVertices) {
+    public static HashMap<Vertex,List<Edge>> getGraph(Set<Vertex> oddVertices) {
 
         Graph graph=new Graph();
 
@@ -24,6 +24,6 @@ public class FormGraph {
                 }
             }
         }
-        return graph;
+        return disconnectedGraph;
     }
 }
