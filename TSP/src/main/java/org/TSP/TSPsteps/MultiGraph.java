@@ -24,8 +24,14 @@ public class MultiGraph {
         for (Edge edge : perfectMatchedEdges) {
             Vertex source = edge.getSource();
             Vertex destination = edge.getDestination();
+
+            //Add edges to Source and Destination Vertices of Even Degree Graph
             evenDegreeGraph.get(source).add(edge);
             evenDegreeGraph.get(destination).add(new Edge(destination, source));
+
+            //Increment degrees of Source and destination
+            source.incrementDegree();
+            destination.incrementDegree();
         }
 
         return evenDegreeGraph;
