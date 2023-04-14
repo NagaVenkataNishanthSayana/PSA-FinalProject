@@ -7,44 +7,18 @@ import java.util.*;
 
 public class EulerianTour {
 
-    public static List<Vertex> generate(HashMap<Vertex, List<Edge>> graph) {
+    public static List<Vertex> generate(HashMap<Vertex, List<Edge>> multiGraph) {
         // Check if the multi graph is connected and has only even-degree vertices
-        if (!isConnected(graph) || !hasEvenDegreeVertices(graph)) {
+        if (!isConnected(multiGraph) || !hasEvenDegreeVertices(multiGraph)) {
             return null;
-        }
-        HashMap<Vertex, List<Edge>> multiGraph=new HashMap<>();
-        for (Vertex v : graph.keySet()) {
-            multiGraph.put(v, new ArrayList<Edge>(graph.get(v)));
         }
 
         // Initialize an empty list to store the edges in the Eulerian tour
-//        List<Edge> eulerianTour = new ArrayList<>();
         List<Vertex> eulerianPath = new ArrayList<>();
 
         // Choose any vertex in the multi graph as the starting vertex
         Vertex startVertex = multiGraph.keySet().iterator().next();
 
-        // Initialize a stack to keep track of the current path
-//        Stack<Vertex> path = new Stack<>();
-//        path.push(startVertex);
-
-        // Traverse the multi graph using a depth-first search
-//        while (!path.isEmpty()) {
-//            Vertex vertex = path.peek();
-//            List<Edge> edges = multiGraph.get(vertex);
-//
-//            if (!edges.isEmpty()) {
-//                // Choose any unvisited edge and traverse it
-//                Edge edge = edges.get(0);
-//                edges.remove(0);
-//                multiGraph.get(edge.getDestinantion()).removeIf(e -> e.getSource().equals(vertex) && e.getDestinantion().equals(edge.getDestinantion()));
-//                eulerianTour.add(edge);
-//                path.push(edge.getDestinantion());
-//            } else {
-//                // Backtrack to the previous vertex that has unvisited edges
-//                path.pop();
-//            }
-//        }
         Set<Edge> visitedEdge=new HashSet<>();
         Stack<Vertex> st = new Stack<>();
         st.push(startVertex);
@@ -93,10 +67,13 @@ public class EulerianTour {
 
     private static boolean hasEvenDegreeVertices(HashMap<Vertex, List<Edge>> multiGraph) {
         // Check if all vertices have even degree
-        for (List<Edge> edges : multiGraph.values()) {
-            if (edges.size() % 2 != 0) {
-                return false;
-            }
+//        for (List<Edge> edges : multiGraph.values()) {
+//            if (edges.size() % 2 != 0) {
+//                return false;
+//            }
+//        }
+        for(Vertex vertex: multiGraph.keySet()){
+            if(vertex.getDegree()%2!=0) return false;
         }
 
         return true;

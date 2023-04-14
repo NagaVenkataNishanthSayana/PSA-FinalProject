@@ -33,7 +33,7 @@ public class Main {
         HashMap<Vertex,List<Edge>> multiGraph= MultiGraph.formMultiGraph(minSpanTree,perfectMatchedEdges);
         System.out.println("multi graph:" + multiGraph.size());
 
-        int tspSolution = TSPSolver.solve(multiGraph);
+        int tspSolution = TSPSolver.solve(map);
         System.out.println("TSP Weight:" + tspSolution);
 
     }

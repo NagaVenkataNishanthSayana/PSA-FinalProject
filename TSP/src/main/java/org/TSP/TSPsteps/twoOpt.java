@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class twoOpt {
-    public static List<Vertex> twoOpt(List<Vertex> tour, HashMap<Vertex, List<Edge>> multiGraph) {
+    public static List<Vertex> twoOpt(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph) {
         int improve = 0;
         int iteration = 0;
         int size = tour.size();
         while (improve < 20 && iteration < 100) {
-            int bestDistance = calculateTotalDistance(tour, multiGraph);
+            int bestDistance = calculateTotalDistance(tour, graph);
             for (int i = 0; i < size - 1; i++) {
                 for (int j = i + 1; j < size; j++) {
                     List<Vertex> newTour = reverseSublist(tour, i, j);
-                    int newDistance = calculateTotalDistance(newTour, multiGraph);
+                    int newDistance = calculateTotalDistance(newTour, graph);
                     if (newDistance < bestDistance) {
                         tour = newTour;
                         improve = 0;
