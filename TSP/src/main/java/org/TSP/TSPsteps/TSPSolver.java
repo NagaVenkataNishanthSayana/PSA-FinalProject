@@ -2,13 +2,13 @@ package org.TSP.TSPsteps;
 
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
-import org.TSP.TSPsteps.twoOpt;
+
 import java.util.*;
 
 public class TSPSolver {
-    public static int solve(HashMap<Vertex, List<Edge>> graph) {
+    public static int solve(HashMap<Vertex, List<Edge>> graph, HashMap<Vertex, List<Edge>> multiGraph) {
         // Step 1: Generate an Eulerian tour
-        List<Vertex> eulerianTour = EulerianTour.generate(graph);
+        List<Vertex> eulerianTour = EulerianTour.generate(multiGraph);
         System.out.println("Eulerian Tour:"+eulerianTour.size());
         if (eulerianTour == null) {
             return -1; // The input graph is not suitable for TSP
