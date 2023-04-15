@@ -26,7 +26,6 @@ public class TSPSolver {
             }
         }
         System.out.println("Min Vertex:"+minVertex.getId());
-        System.out.println("TSP Weight:" +GraphUtils.calculateTotalDistance(tspPath,graph));
         return tspPath;
     }
 
