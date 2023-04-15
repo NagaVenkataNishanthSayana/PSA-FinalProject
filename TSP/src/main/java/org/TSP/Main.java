@@ -3,6 +3,9 @@ package org.TSP;
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Graph;
 import org.TSP.Graph.Vertex;
+import org.TSP.TSPOptimizations.Strategic.SimulatedAnnealing;
+import org.TSP.TSPOptimizations.Tactical.ThreeOpt;
+import org.TSP.TSPOptimizations.Tactical.TwoOpt;
 import org.TSP.TSPsteps.*;
 import org.TSP.util.FileIO;
 import org.TSP.util.GraphUtils;
@@ -33,10 +36,13 @@ public class Main {
         List<Vertex>hamiltonCircuit=TSPSolver.solve(graphMap,multiGraph);
         System.out.println("TSP Weight:" +GraphUtils.calculateTotalDistance(hamiltonCircuit,graphMap));
 
-        List<Vertex> twoOptPath= TwoOpt.twoOpt(hamiltonCircuit,graphMap,100,100);
-        System.out.println("TwoOpt:"+GraphUtils.calculateTotalDistance(twoOptPath,graphMap));
+//        List<Vertex> twoOptPath= TwoOpt.twoOpt(hamiltonCircuit,graphMap,100,100);
+//        System.out.println("TwoOpt:"+GraphUtils.calculateTotalDistance(twoOptPath,graphMap));
 
-        List<Vertex> threeOptPath= ThreeOpt.threeOpt(hamiltonCircuit,graphMap,1,100);
+        List<Vertex> threeOptPath= ThreeOpt.threeOpt(hamiltonCircuit,graphMap,1,1000);
         System.out.println("ThreeOpt:"+GraphUtils.calculateTotalDistance(threeOptPath,graphMap));
+
+        List<Vertex> smTour= SimulatedAnnealing.optimize(hamiltonCircuit,graphMap);
+        System.out.println("smTour:"+GraphUtils.calculateTotalDistance(smTour,graphMap));
     }
 }

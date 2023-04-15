@@ -1,4 +1,4 @@
-package org.TSP.TSPsteps;
+package org.TSP.TSPOptimizations.Tactical;
 
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
@@ -19,8 +19,8 @@ public class TwoOpt {
             for (int i = 0; i < size - 1; i++) {
                 for (int j = i + 1; j < size; j++) {
                     List<Vertex> newTour = reverseSublist(tour, i, j);
-                    int newDistance = GraphUtils.calculateTotalDistance(newTour, graph);
-                    int oldDistance = GraphUtils.calculateTotalDistance(tour, graph);
+                    double newDistance = GraphUtils.calculateTotalDistance(newTour, graph);
+                    double oldDistance = GraphUtils.calculateTotalDistance(tour, graph);
                     if (newDistance < oldDistance) {
                         tour = newTour;
                         improved = true;

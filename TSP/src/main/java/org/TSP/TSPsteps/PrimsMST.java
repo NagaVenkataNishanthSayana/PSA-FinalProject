@@ -21,7 +21,7 @@ public class PrimsMST {
             heap.add(edge);
         }
         visited.add(start);
-        int mstWeight=0;
+        double mstWeight=0;
         while (!heap.isEmpty()) {
 
             //Pop out the Min weighted Edge

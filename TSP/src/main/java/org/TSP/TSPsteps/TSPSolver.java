@@ -10,7 +10,7 @@ public class TSPSolver {
     public static List<Vertex> solve(HashMap<Vertex, List<Edge>> graph, HashMap<Vertex, List<Edge>> multiGraph) {
         // Step 1: Generate an Eulerian tour
         List<Vertex> tspPath=null;
-        int minTSPTour=Integer.MAX_VALUE;
+        double minTSPTour=Double.MAX_VALUE;
         Vertex minVertex=null;
         for(Vertex start:multiGraph.keySet()){
             List<Vertex> eulerianTour = EulerianTour.generate(multiGraph,start);
@@ -18,7 +18,7 @@ public class TSPSolver {
                 return null; // The input graph is not suitable for TSP
             }
             List<Vertex> hamiltonianCircuit = obtainHamiltonianCircuit(eulerianTour);
-            int tspTourCost= GraphUtils.calculateTotalDistance(hamiltonianCircuit,graph);
+            double tspTourCost= GraphUtils.calculateTotalDistance(hamiltonianCircuit,graph);
             if(tspTourCost<minTSPTour){
                 minVertex=start;
                 minTSPTour=tspTourCost;

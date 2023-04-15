@@ -3,6 +3,7 @@ import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
 import java.util.*;
 import org.TSP.TSPsteps.GreedyMatching;
+import org.apache.lucene.util.SloppyMath;
 
 public class GraphUtils {
 
@@ -31,8 +32,8 @@ public class GraphUtils {
         return GreedyMatching.greedyMatch(createSubgraph(graph, vertices), new ArrayList<>(vertices));
     }
 
-    public static int calculateTotalDistance(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph) {
-        int totalDistance = 0;
+    public static double calculateTotalDistance(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph) {
+        double totalDistance = 0;
         for (int i = 0; i < tour.size() - 1; i++) {
             Vertex source = tour.get(i);
             Vertex destination = tour.get(i + 1);
@@ -57,5 +58,13 @@ public class GraphUtils {
         return totalDistance;
     }
 
+    public static double probability(double f1, double f2, double temp) {
+        if (f2 < f1) return 1;
+        return Math.exp((f1 - f2) / temp);
+    }
+
+    public static double getWeight(Vertex source, Vertex destination) {
+        return SloppyMath.haversinMeters(source.getLatitude(), source.getLongitude(), destination.getLatitude(), destination.getLongitude());
+    }
 
 }
