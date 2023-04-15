@@ -31,5 +31,31 @@ public class GraphUtils {
         return GreedyMatching.greedyMatch(createSubgraph(graph, vertices), new ArrayList<>(vertices));
     }
 
+    public static int calculateTotalDistance(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph) {
+        int totalDistance = 0;
+        for (int i = 0; i < tour.size() - 1; i++) {
+            Vertex source = tour.get(i);
+            Vertex destination = tour.get(i + 1);
+            List<Edge> edges = graph.get(source);
+            for (Edge edge : edges) {
+                if (edge.getDestination().equals(destination)) {
+                    totalDistance += edge.getWeight();
+                    break;
+                }
+            }
+        }
+        // Add the distance of the last edge connecting the last vertex to the first vertex
+        Vertex firstVertex = tour.get(0);
+        Vertex lastVertex = tour.get(tour.size() - 1);
+        List<Edge> edges = graph.get(lastVertex);
+        for (Edge edge : edges) {
+            if (edge.getDestination().equals(firstVertex)) {
+                totalDistance += edge.getWeight();
+                break;
+            }
+        }
+        return totalDistance;
+    }
+
 
 }

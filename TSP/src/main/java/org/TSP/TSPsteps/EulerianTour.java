@@ -7,7 +7,7 @@ import java.util.*;
 
 public class EulerianTour {
 
-    public static List<Vertex> generate(HashMap<Vertex, List<Edge>> multiGraph) {
+    public static List<Vertex> generate(HashMap<Vertex, List<Edge>> multiGraph,Vertex start) {
         // Check if the multi graph is connected and has only even-degree vertices
         if (!isConnected(multiGraph) || !hasEvenDegreeVertices(multiGraph)) {
             return null;
@@ -17,7 +17,7 @@ public class EulerianTour {
         List<Vertex> eulerianPath = new ArrayList<>();
 
         // Choose any vertex in the multi graph as the starting vertex
-        Vertex startVertex = multiGraph.keySet().iterator().next();
+        Vertex startVertex = start;
 
         Set<Edge> visitedEdge=new HashSet<>();
         Stack<Vertex> st = new Stack<>();
@@ -67,11 +67,6 @@ public class EulerianTour {
 
     private static boolean hasEvenDegreeVertices(HashMap<Vertex, List<Edge>> multiGraph) {
         // Check if all vertices have even degree
-//        for (List<Edge> edges : multiGraph.values()) {
-//            if (edges.size() % 2 != 0) {
-//                return false;
-//            }
-//        }
         for(Vertex vertex: multiGraph.keySet()){
             if(vertex.getDegree()%2!=0) return false;
         }
