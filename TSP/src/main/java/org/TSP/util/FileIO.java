@@ -21,7 +21,7 @@ public class FileIO {
                 String line = "";
                 String splitBy = ",";
                 BufferedReader br;
-                br = new BufferedReader(new FileReader("F:\\Projects\\PSA\\PSA-FinalProject\\TSP\\src\\main\\resources\\crimeSample.csv"));
+                br = new BufferedReader(new FileReader("F:\\Projects\\PSA\\PSA-FinalProject\\TSP\\src\\main\\resources\\info6205.spring2023.teamproject.csv"));
                 br.readLine();
                 while ((line = br.readLine()) != null)   //returns a Boolean value
                 {

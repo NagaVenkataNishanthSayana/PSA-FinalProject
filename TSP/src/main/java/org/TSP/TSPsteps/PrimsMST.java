@@ -10,7 +10,6 @@ public class PrimsMST {
     public static HashMap<Vertex, List<Edge>> prim(HashMap<Vertex, List<Edge>> graph, Vertex start){
         HashMap<Vertex, List<Edge>> mst = new HashMap<>();
         Set<Vertex> visited = new HashSet<>();
-        List<Edge> mstEdges=new ArrayList<>();
         PriorityQueue<Edge> heap = new PriorityQueue<>(new Comparator<Edge>() {
             @Override
             public int compare(Edge e1, Edge e2) {
@@ -34,20 +33,17 @@ public class PrimsMST {
             if (visited.contains(destination)) {
                 continue;
             }
-            mstEdges.add(minEdge);
 
             //Add Destination vertex to the visited set
             visited.add(destination);
 
             //Add Source and Destination vertices into the MST MAP
-
-
             mst.putIfAbsent(source,new ArrayList<Edge>());
             mst.putIfAbsent(destination,new ArrayList<Edge>());
 
+            //Add edges to Source and Destination vertices
             mst.get(destination).add(new Edge(destination,source));
             mst.get(source).add(minEdge);
-            //Add edges to Source and Destination vertices
 
             //Calculating MST cost
             mstWeight+=minEdge.getWeight();
@@ -63,10 +59,7 @@ public class PrimsMST {
                 }
             }
         }
-        for(Edge edge:mstEdges){
 
-        }
-        System.out.println("MST edges:"+mstEdges.size());
         System.out.println("MST Weight:"+mstWeight);
 
         return mst;

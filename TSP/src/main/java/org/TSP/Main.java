@@ -33,8 +33,8 @@ public class Main {
         HashMap<Vertex,List<Edge>> multiGraph= MultiGraph.formMultiGraph(minSpanTree,perfectMatchedEdges);
         System.out.println("multi graph:" + multiGraph.size());
 
-        int tspSolution = TSPSolver.solve(map,multiGraph);
-        System.out.println("TSP Weight:" + tspSolution);
+        List<Vertex>HamiltonCircuit=TSPSolver.solve(map,multiGraph);
+
 
     }
 }
