@@ -1,7 +1,5 @@
 package org.TSP.Graph;
 
-import java.util.Objects;
-
 public class Vertex {
 
     private String id;
@@ -53,20 +51,4 @@ public class Vertex {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vertex vertex = (Vertex) o;
-        return Double.compare(vertex.latitude, latitude) == 0 &&
-                Double.compare(vertex.longitude, longitude) == 0 &&
-                Objects.equals(id, vertex.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, latitude, longitude);
-    }
-
 }
