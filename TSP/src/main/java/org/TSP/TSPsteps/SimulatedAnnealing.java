@@ -3,7 +3,6 @@ package org.TSP.TSPsteps;
 import org.TSP.Graph.Vertex;
 import org.TSP.Graph.Edge;
 import org.TSP.util.GraphUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ public class SimulatedAnnealing {
             int index1 = random.nextInt(tour.size());
             int index2 = random.nextInt(tour.size());
 
-            List<Vertex> newTour = TwoOpt.reverseSubtour(tour, Math.min(index1, index2), Math.max(index1, index2));
+            List<Vertex> newTour = reverseSublist(tour, Math.min(index1, index2), Math.max(index1, index2));
             double newDistance = GraphUtils.calculateTotalDistance(newTour, graph);
 
             if (shouldAcceptMove(bestDistance, newDistance, temperature)) {
@@ -45,4 +44,13 @@ public class SimulatedAnnealing {
             return Math.random() < probability;
         }
     }
-}
+
+    public static List<Vertex> reverseSublist(List<Vertex> list, int start, int end) {
+        List<Vertex> reversedList = new ArrayList<>(list.subList(0, start));
+        for (int i = end; i >= start; i--) {
+            reversedList.add(list.get(i));
+        }
+        reversedList.addAll(list.subList(end + 1, list.size()));
+        return reversedList;
+    }
+    }

@@ -40,6 +40,7 @@ public class Main {
         List<Vertex>hamiltonCircuit=TSPSolver.solve(graphMap,multiGraph);
         System.out.println("TSP Weight:" +GraphUtils.calculateTotalDistance(hamiltonCircuit,graphMap));
         // TwoOpt
+        System.out.println("Started ThreeOpt - It took about 1 second to run");
         long startTime1 = System.nanoTime();
         List<Vertex> twoOptPath= TwoOpt.twoOpt(hamiltonCircuit);
         System.out.println("TwoOpt:"+GraphUtils.calculateTotalDistance(twoOptPath,graphMap));
@@ -48,6 +49,7 @@ public class Main {
         double secondsElapsed1 = (double) timeElapsed1 / 1_000_000_000.0;
         System.out.println("Time taken by TwoOpt method to execute (in seconds): " + secondsElapsed1);
         // ThreeOpt
+        System.out.println("Started ThreeOpt - It took about 100 seconds to run");
         long startTime2 = System.nanoTime();
         List<Vertex> threeOptPath= ThreeOpt.threeOpt(hamiltonCircuit,graphMap);
         System.out.println("ThreeOpt:"+GraphUtils.calculateTotalDistance(threeOptPath,graphMap));
@@ -55,8 +57,8 @@ public class Main {
         long timeElapsed2 = endTime2 - startTime2;
         double secondsElapsed2 = (double) timeElapsed2 / 1_000_000_000.0;
         System.out.println("Time taken by ThreeOpt method to execute (in seconds): " + secondsElapsed2);
-
         // Simulated Annealing
+        System.out.println("Started Simulated Annealing - It took about 350 seconds to run");
         long startTime3 = System.nanoTime();
         List<Vertex> annealedTour = SimulatedAnnealing.simulatedAnnealing(hamiltonCircuit, graphMap, 500, 0.001, 500000);
         System.out.println("Simulated Annealing: " + GraphUtils.calculateTotalDistance(annealedTour, graphMap));
