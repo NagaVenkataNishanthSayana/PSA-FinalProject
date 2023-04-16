@@ -13,17 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileIO {
-    private final String filePath;
-
-    // Default constructor with a default file path
-    public FileIO() {
-        this.filePath = "C:\\PSA\\PSA-FinalProject\\TSP\\src\\main\\resources\\info6205.spring2023.teamproject.csv";
-    }
-
-    // Overloaded constructor that accepts a custom file path
-    public FileIO(String filePath) {
-        this.filePath = filePath;
-    }
 
         public Graph getConnectedGraph() {
             Graph graph=new Graph();
@@ -32,7 +21,7 @@ public class FileIO {
                 String line = "";
                 String splitBy = ",";
                 BufferedReader br;
-                br = new BufferedReader(new FileReader(filePath));
+                br = new BufferedReader(new FileReader("F:\\Projects\\PSA\\PSA-FinalProject\\TSP\\src\\main\\resources\\info6205.spring2023.teamproject.csv"));
                 br.readLine();
                 while ((line = br.readLine()) != null)   //returns a Boolean value
                 {
