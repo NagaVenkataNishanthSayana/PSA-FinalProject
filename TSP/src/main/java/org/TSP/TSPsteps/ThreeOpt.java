@@ -24,8 +24,7 @@ public class ThreeOpt {
                 }
             }
         }
-        System.out.println("newTour: " + tour.size());
-
+        System.out.println("Size of 3-opt tour" + tour.size());
         return tour;
     }
 
