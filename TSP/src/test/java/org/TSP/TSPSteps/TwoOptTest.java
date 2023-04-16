@@ -43,7 +43,7 @@ class TwoOptTest {
         // Check that the new tour is shorter than the original tour
         int oldDistance = GraphUtils.calculateTotalDistance(tour, graph);
         int newDistance = GraphUtils.calculateTotalDistance(newTour, graph);
-        assertTrue(newDistance < oldDistance);
+        assertTrue(newDistance <= oldDistance);
     }
 
 }

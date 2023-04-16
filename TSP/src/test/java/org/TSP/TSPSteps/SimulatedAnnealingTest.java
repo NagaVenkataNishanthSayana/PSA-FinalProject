@@ -2,6 +2,7 @@ package org.TSP.TSPSteps;
 
 import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
+import org.TSP.TSPsteps.SimulatedAnnealing;
 import org.TSP.TSPsteps.ThreeOpt;
 import org.TSP.util.GraphUtils;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,10 @@ import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
-class ThreeOptTest {
+class SimulatedAnnealingTest {
 
     @Test
-    public void testThreeOpt() {
+    public void testSimulatedAnnealing() {
         // Create a sample graph with three cities and corresponding edges
         HashMap<Vertex, List<Edge>> graph = new HashMap<>();
         Vertex v1 = new Vertex("London", 51.5074, -0.1278);
@@ -37,7 +38,7 @@ class ThreeOptTest {
         tour.add(v1);
 
         // Apply 3-opt to the tour
-        List<Vertex> newTour = ThreeOpt.threeOpt(tour, graph);
+        List<Vertex> newTour = SimulatedAnnealing.simulatedAnnealing(tour, graph,500, 0.001, 500000);
 
         // Check that the new tour is shorter than the original tour
         int oldDistance = GraphUtils.calculateTotalDistance(tour, graph);
