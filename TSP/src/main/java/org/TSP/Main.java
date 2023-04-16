@@ -41,7 +41,7 @@ public class Main {
         System.out.println("TSP Weight:" +GraphUtils.calculateTotalDistance(hamiltonCircuit,graphMap));
         // TwoOpt
         long startTime1 = System.nanoTime();
-        List<Vertex> twoOptPath= TwoOpt.twoOpt(hamiltonCircuit,graphMap,100,100);
+        List<Vertex> twoOptPath= TwoOpt.twoOpt(hamiltonCircuit);
         System.out.println("TwoOpt:"+GraphUtils.calculateTotalDistance(twoOptPath,graphMap));
         long endTime1 = System.nanoTime();
         long timeElapsed1 = endTime1 - startTime1;

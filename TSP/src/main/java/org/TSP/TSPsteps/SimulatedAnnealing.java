@@ -22,7 +22,7 @@ public class SimulatedAnnealing {
             int index1 = random.nextInt(tour.size());
             int index2 = random.nextInt(tour.size());
 
-            List<Vertex> newTour = TwoOpt.reverseSublist(tour, Math.min(index1, index2), Math.max(index1, index2));
+            List<Vertex> newTour = TwoOpt.reverseSubtour(tour, Math.min(index1, index2), Math.max(index1, index2));
             double newDistance = GraphUtils.calculateTotalDistance(newTour, graph);
 
             if (shouldAcceptMove(bestDistance, newDistance, temperature)) {

@@ -1,72 +1,53 @@
 package org.TSP.TSPsteps;
 
-import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
-import org.TSP.util.GraphUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class TwoOpt {
-    public static List<Vertex> twoOpt(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph, int maxIterations, long timeoutMillis) {
-        boolean improved = true;
-        int size = tour.size();
-        long startTime = System.currentTimeMillis();
-        int iteration = 0;
 
-        while (improved && iteration < maxIterations && System.currentTimeMillis() - startTime < timeoutMillis) {
+    public static List<Vertex> twoOpt(List<Vertex> tour) {
+        boolean improved = true;
+
+        while (improved) {
             improved = false;
 
-            for (int i = 0; i < size - 2; i++) {
-                for (int j = i + 1; j < size - 1; j++) {
-                    double delta = calculateDelta(tour, i, j, graph);
-
+            for (int i = 0; i < tour.size() - 1; i++) {
+                for (int j = i + 1; j < tour.size(); j++) {
+                    double delta = calculateDelta(tour, i, j);
                     if (delta < 0) {
-                        tour = reverseSublist(tour, i + 1, j);
+                        tour = reverseSubtour(tour, i + 1, j);
                         improved = true;
                     }
                 }
             }
-
-            iteration++;
         }
 
         return tour;
     }
 
-    private static double calculateDelta(List<Vertex> tour, int i, int j, HashMap<Vertex, List<Edge>> graph) {
+    private static double calculateDelta(List<Vertex> tour, int i, int j) {
+        int n = tour.size();
         Vertex a = tour.get(i);
-        Vertex b = tour.get(i + 1);
+        Vertex b = tour.get((i + 1) % n);
         Vertex c = tour.get(j);
-        Vertex d = tour.get(j + 1);
+        Vertex d = tour.get((j + 1) % n);
 
-        double ab = findEdgeWeight(a, b, graph);
-        double cd = findEdgeWeight(c, d, graph);
-        double ac = findEdgeWeight(a, c, graph);
-        double bd = findEdgeWeight(b, d, graph);
+        double currentDistance = getEdgeWeight(a, b) + getEdgeWeight(c, d);
+        double newDistance = getEdgeWeight(a, c) + getEdgeWeight(b, d);
 
-        return ac + bd - ab - cd;
+        return newDistance - currentDistance;
     }
 
-    private static double findEdgeWeight(Vertex source, Vertex destination, HashMap<Vertex, List<Edge>> graph) {
-        List<Edge> edges = graph.get(source);
-
-        for (Edge edge : edges) {
-            if (edge.getDestination().equals(destination)) {
-                return edge.getWeight();
-            }
-        }
-
-        return Double.MAX_VALUE; // If there's no edge found, return the maximum double value
+    static List<Vertex> reverseSubtour(List<Vertex> tour, int i, int j) {
+        List<Vertex> newTour = new ArrayList<>(tour.subList(0, i));
+        List<Vertex> segment1 = tour.subList(i, j + 1);
+        Collections.reverse(segment1);
+        newTour.addAll(segment1);
+        newTour.addAll(tour.subList(j + 1, tour.size()));
+        return newTour;
     }
 
-    public static List<Vertex> reverseSublist(List<Vertex> list, int start, int end) {
-        List<Vertex> reversedList = new ArrayList<>(list.subList(0, start));
-        for (int i = end; i >= start; i--) {
-            reversedList.add(list.get(i));
-        }
-        reversedList.addAll(list.subList(end + 1, list.size()));
-        return reversedList;
+    private static double getEdgeWeight(Vertex v1, Vertex v2) {
+        return org.apache.lucene.util.SloppyMath.haversinMeters(v1.getLatitude(), v1.getLongitude(), v2.getLatitude(), v2.getLongitude());
     }
 }
