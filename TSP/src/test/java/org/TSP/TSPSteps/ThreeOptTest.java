@@ -37,7 +37,7 @@ class ThreeOptTest {
         tour.add(v1);
 
         // Apply 3-opt to the tour
-        List<Vertex> newTour = ThreeOpt.threeOpt(tour, graph);
+        List<Vertex> newTour = ThreeOpt.threeOpt(tour);
 
         // Check that the new tour is shorter than the original tour
         int oldDistance = GraphUtils.calculateTotalDistance(tour, graph);

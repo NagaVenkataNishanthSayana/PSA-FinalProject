@@ -51,12 +51,13 @@ public class Main {
         // ThreeOpt
         System.out.println("Started ThreeOpt - It took about 100 seconds to run");
         long startTime2 = System.nanoTime();
-        List<Vertex> threeOptPath= ThreeOpt.threeOpt(hamiltonCircuit,graphMap);
+        List<Vertex> threeOptPath= ThreeOpt.threeOpt(hamiltonCircuit);
         System.out.println("ThreeOpt:"+GraphUtils.calculateTotalDistance(threeOptPath,graphMap));
         long endTime2 = System.nanoTime();
         long timeElapsed2 = endTime2 - startTime2;
         double secondsElapsed2 = (double) timeElapsed2 / 1_000_000_000.0;
         System.out.println("Time taken by ThreeOpt method to execute (in seconds): " + secondsElapsed2);
+
         // Simulated Annealing
         System.out.println("Started Simulated Annealing - It took about 350 seconds to run");
         long startTime3 = System.nanoTime();

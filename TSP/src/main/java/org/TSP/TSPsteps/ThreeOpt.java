@@ -6,55 +6,61 @@ import java.util.*;
 
 public class ThreeOpt {
 
-    public static List<Vertex> threeOpt(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph) {
-        boolean improved = true;
-
-        while (improved) {
-            improved = false;
-
-            for (int i = 0; i < tour.size() - 2; i++) {
-                for (int j = i + 1; j < tour.size() - 1; j++) {
-                    for (int k = j + 1; k < tour.size(); k++) {
-                        double delta = calculateDelta(tour, i, j, k);
-                        if (delta < 0) {
-                            tour = reverseSubtour(tour, i + 1, j, k);
-                            improved = true;
-                        }
-                    }
-                }
+    public static List<Vertex> threeOpt(List<Vertex> tour) {
+        while (true) {
+            int delta = 0;
+            for (int[] segment : allSegments(tour.size())) {
+                delta += reverseSegmentIfBetter(tour, segment[0], segment[1], segment[2]);
+            }
+            if (delta >= 0) {
+                break;
             }
         }
-        System.out.println("Size of 3-opt tour" + tour.size());
         return tour;
     }
 
-    private static double calculateDelta(List<Vertex> tour, int i, int j, int k) {
-        int n = tour.size();
-        Vertex a = tour.get(i);
-        Vertex b = tour.get((i + 1) % n);
-        Vertex c = tour.get(j);
-        Vertex d = tour.get((j + 1) % n);
-        Vertex e = tour.get(k);
-        Vertex f = tour.get((k + 1) % n);
-
-        double currentDistance = getEdgeWeight(a, b) + getEdgeWeight(c, d) + getEdgeWeight(e, f);
-        double newDistance = getEdgeWeight(a, c) + getEdgeWeight(b, e) + getEdgeWeight(d, f);
-
-        return newDistance - currentDistance;
+    private static int[][] allSegments(int n) {
+        List<int[]> segments = new ArrayList<>();
+        for (int i = 1; i < n; i++) {
+            for (int j = i + 2; j < n-2; j++) {
+                for (int k = j + 2; k < n-4; k++) {
+                    segments.add(new int[]{i, j, k});
+                }
+            }
+        }
+        return segments.toArray(new int[0][0]);
     }
 
-    private static List<Vertex> reverseSubtour(List<Vertex> tour, int i, int j, int k) {
-        List<Vertex> newTour = new ArrayList<>(tour.subList(0, i));
-        List<Vertex> segment1 = tour.subList(i, j + 1);
-        List<Vertex> segment2 = tour.subList(j + 1, k + 1);
-        Collections.reverse(segment1);
-        newTour.addAll(segment1);
-        newTour.addAll(segment2);
-        newTour.addAll(tour.subList(k + 1, tour.size()));
-        return newTour;
+    private static double reverseSegmentIfBetter(List<Vertex> tour, int i, int j, int k) {
+        Vertex A = tour.get(i-1), B = tour.get(i), C = tour.get(j-1), D = tour.get(j),
+                E = tour.get(k-1), F = tour.get(k % tour.size());
+        double d0 = getEdgeWeight(A, B) + getEdgeWeight(C, D) + getEdgeWeight(E, F);
+        double d1 = getEdgeWeight(A, C) + getEdgeWeight(B, D) + getEdgeWeight(E, F);
+        double d2 = getEdgeWeight(A, B) + getEdgeWeight(C, E) + getEdgeWeight(D, F);
+        double d3 = getEdgeWeight(A, D) + getEdgeWeight(E, B) + getEdgeWeight(C, F);
+        double d4 = getEdgeWeight(F, B) + getEdgeWeight(C, D) + getEdgeWeight(E, A);
+
+        if (d0 > d1) {
+            Collections.reverse(tour.subList(i, j));
+            return -d0 + d1;
+        } else if (d0 > d2) {
+            Collections.reverse(tour.subList(j, k));
+            return -d0 + d2;
+        } else if (d0 > d4) {
+            Collections.reverse(tour.subList(i, k));
+            return -d0 + d4;
+        } else if (d0 > d3) {
+            List<Vertex> tmp = new ArrayList<>(tour.subList(j, k));
+            tmp.addAll(tour.subList(i, j));
+            tour.subList(i, k).clear();
+            tour.addAll(i, tmp);
+            return -d0 + d3;
+        }
+        return 0;
     }
 
     private static double getEdgeWeight(Vertex v1, Vertex v2) {
+        // calculate the distance between two vertices using the Haversine formula
         return org.apache.lucene.util.SloppyMath.haversinMeters(v1.getLatitude(), v1.getLongitude(), v2.getLatitude(), v2.getLongitude());
     }
 }
