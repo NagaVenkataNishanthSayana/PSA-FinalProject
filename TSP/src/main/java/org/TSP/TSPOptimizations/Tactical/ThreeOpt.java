@@ -1,51 +1,62 @@
 package org.TSP.TSPOptimizations.Tactical;
 
-import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
-import org.TSP.util.GraphUtils;
+import org.TSP.Graph.Edge;
+import org.apache.lucene.util.SloppyMath;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ThreeOpt {
 
-    public static List<Vertex> threeOpt(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph, int maxIterations, long timeoutMillis) {
+    public static List<Vertex> threeOpt(List<Vertex> tour, HashMap<Vertex, List<Edge>> graph) {
         boolean improved = true;
-        int size = tour.size();
-        long startTime = System.currentTimeMillis();
-        int iteration=0;
-        while (System.currentTimeMillis() - startTime < timeoutMillis && improved && iteration < maxIterations) {
+
+        while (improved) {
             improved = false;
-            for (int i = 0; i < size - 2; i++) {
-                if(System.currentTimeMillis() - startTime < timeoutMillis) break;
-                for (int j = i + 1; j < size-1; j++) {
-                    if(System.currentTimeMillis() - startTime < timeoutMillis) break;
-                    for (int k = j + 1; k < size; k++){
-                        if(System.currentTimeMillis() - startTime < timeoutMillis) break;
-                        List<Vertex> newTour = reverseSublist(tour, i, j);
-                        newTour = reverseSublist(newTour, j+1, k);
-                        double newDistance = GraphUtils.calculateTotalDistance(newTour, graph);
-                        double oldDistance = GraphUtils.calculateTotalDistance(tour, graph);
-                        if (newDistance < oldDistance) {
-                            tour = newTour;
+
+            for (int i = 0; i < tour.size() - 2; i++) {
+                for (int j = i + 1; j < tour.size() - 1; j++) {
+                    for (int k = j + 1; k < tour.size(); k++) {
+                        double delta = calculateDelta(tour, i, j, k);
+                        if (delta < 0) {
+                            tour = reverseSubtour(tour, i + 1, j, k);
                             improved = true;
                         }
                     }
                 }
             }
-            iteration++;
         }
+        System.out.println("Size of 3-opt tour" + tour.size());
         return tour;
     }
 
-    public static List<Vertex> reverseSublist(List<Vertex> list, int start, int end) {
-        List<Vertex> reversedList = new ArrayList<>(list.subList(0, start));
-        for (int i = end; i >= start; i--) {
-            reversedList.add(list.get(i));
-        }
-        reversedList.addAll(list.subList(end + 1, list.size()));
-        return reversedList;
+    private static double calculateDelta(List<Vertex> tour, int i, int j, int k) {
+        int n = tour.size();
+        Vertex a = tour.get(i);
+        Vertex b = tour.get((i + 1) % n);
+        Vertex c = tour.get(j);
+        Vertex d = tour.get((j + 1) % n);
+        Vertex e = tour.get(k);
+        Vertex f = tour.get((k + 1) % n);
+
+        double currentDistance = getEdgeWeight(a, b) + getEdgeWeight(c, d) + getEdgeWeight(e, f);
+        double newDistance = getEdgeWeight(a, c) + getEdgeWeight(b, e) + getEdgeWeight(d, f);
+
+        return newDistance - currentDistance;
     }
 
+    private static List<Vertex> reverseSubtour(List<Vertex> tour, int i, int j, int k) {
+        List<Vertex> newTour = new ArrayList<>(tour.subList(0, i));
+        List<Vertex> segment1 = tour.subList(i, j + 1);
+        List<Vertex> segment2 = tour.subList(j + 1, k + 1);
+        Collections.reverse(segment1);
+        newTour.addAll(segment1);
+        newTour.addAll(segment2);
+        newTour.addAll(tour.subList(k + 1, tour.size()));
+        return newTour;
+    }
+
+    private static double getEdgeWeight(Vertex v1, Vertex v2) {
+        return SloppyMath.haversinMeters(v1.getLatitude(), v1.getLongitude(), v2.getLatitude(), v2.getLongitude());
+    }
 }
