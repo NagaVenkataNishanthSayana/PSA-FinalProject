@@ -3,6 +3,7 @@ import org.TSP.Graph.Edge;
 import org.TSP.Graph.Vertex;
 import java.util.*;
 import org.TSP.TSPsteps.GreedyMatching;
+import org.apache.lucene.util.SloppyMath;
 
 public class GraphUtils {
 
@@ -56,6 +57,11 @@ public class GraphUtils {
         }
         return totalDistance;
     }
+
+    public static double getWeight(Vertex source, Vertex destination){
+        return SloppyMath.haversinMeters(source.getLatitude(),source.getLongitude(),destination.getLatitude(),source.getLongitude());
+    }
+
 
 
 }
