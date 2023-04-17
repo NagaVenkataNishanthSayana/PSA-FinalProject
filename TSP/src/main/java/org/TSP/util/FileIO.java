@@ -17,7 +17,6 @@ public class FileIO {
         public Graph getConnectedGraph() {
             Graph graph=new Graph();
             try {
-                int count = 0;
                 String line = "";
                 String splitBy = ",";
                 BufferedReader br;
@@ -25,11 +24,8 @@ public class FileIO {
                 br.readLine();
                 while ((line = br.readLine()) != null)   //returns a Boolean value
                 {
-//                    System.out.println(line);
                     String[] vertexDetails = line.split(splitBy);
-                    graph.addVertex(new Vertex(String.valueOf(count), Double.parseDouble(vertexDetails[1]), Double.parseDouble(vertexDetails[2])));
-                    count++;
-
+                    graph.addVertex(new Vertex(vertexDetails[0].substring(vertexDetails[0].length()-5), Double.parseDouble(vertexDetails[1]), Double.parseDouble(vertexDetails[2])));
                 }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);

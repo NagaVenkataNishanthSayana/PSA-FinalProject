@@ -14,7 +14,7 @@ public class AntColonyOptimization {
     private static final double ALPHA = 1.0;
     private static final double BETA = 2.0;
     private static final double RHO = 0.5;
-    private static final double Q = 100.0;
+    private static final double Q = 1.0;
     private static final double INIT_PHEROMONE = 1.0;
 
     private List<Vertex> vertices;
@@ -30,31 +30,21 @@ public class AntColonyOptimization {
     }
 
     public List<Vertex> solve() {
-        List<List<Vertex>> bestSolutions = new ArrayList<>();
-        double bestTourLength = Double.MAX_VALUE;
+        List<Vertex> bestSolution = new ArrayList<>(vertices);
+        double bestTourLength = calculateTourLength(bestSolution);
 
         for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++) {
-            List<List<Vertex>> solutions = new ArrayList<>();
             for (int ant = 0; ant < NUM_ANTS; ant++) {
                 List<Vertex> tour = buildTour();
-                solutions.add(tour);
-            }
-
-            for (List<Vertex> tour : solutions) {
-                double tourLength = calculateTourLength(tour);
-                if (tourLength < bestTourLength) {
-                    bestTourLength = tourLength;
-                    bestSolutions.clear();
-                    bestSolutions.add(new ArrayList<>(tour));
-                } else if (tourLength == bestTourLength) {
-                    bestSolutions.add(new ArrayList<>(tour));
+                updatePheromoneMatrix(tour);
+                double currentTourLength=calculateTourLength(tour);
+                if(currentTourLength<bestTourLength){
+                    bestSolution=tour;
                 }
             }
-
-            updatePheromoneMatrix(solutions);
         }
 
-        return bestSolutions.get(random.nextInt(bestSolutions.size()));
+        return bestSolution;
     }
 
     private List<Vertex> buildTour() {
@@ -75,23 +65,24 @@ public class AntColonyOptimization {
     }
 
     private Vertex selectNextVertex(Vertex current, List<Vertex> unvisited) {
-        double sumProb = 0.0;
+        double[] probability=new double[unvisited.size()];
+        double pheromone = 0.0;
+        int probIndex=0;
+        int i = vertices.indexOf(current);
         for (Vertex vertex : unvisited) {
-            int i = vertices.indexOf(current);
             int j = vertices.indexOf(vertex);
-            sumProb += Math.pow(pheromoneMatrix[i][j], ALPHA) * Math.pow(1.0 / distanceMatrix[i][j], BETA);
+            if(i==j) continue;
+            probability[probIndex++]=Math.pow(pheromoneMatrix[i][j], ALPHA) * Math.pow(1.0 / distanceMatrix[i][j], BETA);
+            pheromone += probability[probIndex-1];
         }
 
-        double randomProb = random.nextDouble() * sumProb;
+        double randomProb = random.nextDouble()*pheromone;
         double cumulativeProb = 0.0;
 
-        for (Vertex vertex : unvisited) {
-            int i = vertices.indexOf(current);
-            int j = vertices.indexOf(vertex);
-            cumulativeProb += Math.pow(pheromoneMatrix[i][j], ALPHA) * Math.pow(1.0 / distanceMatrix[i][j], BETA);
-
+        for(int j=0;j<probability.length;j++){
+            cumulativeProb+=probability[j];
             if (cumulativeProb >= randomProb) {
-                return vertex;
+                return unvisited.get(j);
             }
         }
 
@@ -131,25 +122,24 @@ public class AntColonyOptimization {
             Vertex next = tour.get((i + 1) % tour.size());
             length += GraphUtils.getWeight(current,next);
         }
+        length+=GraphUtils.getWeight(tour.get(tour.size()-1),tour.get(0));
 
         return length;
     }
 
-    private void updatePheromoneMatrix(List<List<Vertex>> solutions) {
+    private void updatePheromoneMatrix(List<Vertex> tour) {
         int n = vertices.size();
         double[][] newPheromoneMatrix = new double[n][n];
 
-        for (List<Vertex> tour : solutions) {
-            double tourLength = calculateTourLength(tour);
-            double deltaPheromone = Q / tourLength;
+        double tourLength = calculateTourLength(tour);
+        double deltaPheromone = Q / tourLength;
 
-            for (int i = 0; i < tour.size(); i++) {
-                int current = vertices.indexOf(tour.get(i));
-                int next = vertices.indexOf(tour.get((i + 1) % tour.size()));
+        for (int i = 0; i < tour.size(); i++) {
+            int current = vertices.indexOf(tour.get(i));
+            int next = vertices.indexOf(tour.get((i + 1) % tour.size()));
 
-                newPheromoneMatrix[current][next] += deltaPheromone;
-                newPheromoneMatrix[next][current] += deltaPheromone;
-            }
+            newPheromoneMatrix[current][next] += deltaPheromone;
+            newPheromoneMatrix[next][current] += deltaPheromone;
         }
 
         for (int i = 0; i < n; i++) {
@@ -158,4 +148,5 @@ public class AntColonyOptimization {
             }
         }
     }
+
 }

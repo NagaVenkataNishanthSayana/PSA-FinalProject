@@ -44,6 +44,7 @@ public class Main {
 
         // TwoOpt
 //        System.out.println("Started ThreeOpt - It took about 1 second to run");
+        System.out.println("Two Opt Optimization started running...");
         BenchmarkTimer benchmarkTimerTwoOpt=new BenchmarkTimer();
         benchmarkTimerTwoOpt.start();
         List<Vertex> twoOptPath= TwoOpt.twoOpt(hamiltonCircuit);
@@ -53,6 +54,7 @@ public class Main {
 
         // ThreeOpt
 //        System.out.println("Started ThreeOpt - It took about 100 seconds to run");
+        System.out.println("Three Opt Optimization started running...");
         BenchmarkTimer benchmarkTimerThreeOpt=new BenchmarkTimer();
         benchmarkTimerThreeOpt.start();
         List<Vertex> threeOptPath= ThreeOpt.threeOpt(hamiltonCircuit);
@@ -62,6 +64,7 @@ public class Main {
 
         // Simulated Annealing
 //        System.out.println("Started Simulated Annealing - It took about 350 seconds to run");
+        System.out.println("Simulated Annealing Optimization started running...");
         BenchmarkTimer benchmarkTimerSmtA=new BenchmarkTimer();
         benchmarkTimerSmtA.start();
         List<Vertex> annealedTour = SimulatedAnnealing.simulatedAnnealing(hamiltonCircuit, graphMap, 500, 0.001, 500000);
@@ -70,6 +73,7 @@ public class Main {
         System.out.println("Time taken by Simulated Annealing method to execute (in seconds): " + benchmarkTimerSmtA.getElapsedTime());
 
         //Ant Colony
+        System.out.println("Ant Colony Optimization started running...");
         BenchmarkTimer benchmarkTimerAnt=new BenchmarkTimer();
         benchmarkTimerAnt.start();
         List<Vertex> antColony=new AntColonyOptimization(hamiltonCircuit).solve();
