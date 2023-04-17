@@ -15,13 +15,10 @@ public class SimulatedAnnealing {
         double bestDistance = GraphUtils.calculateTotalDistance(tour, graph);
         List<Vertex> bestTour = new ArrayList<>(tour);
 
-        Random random = new Random();
-
         for (int i = 0; i < maxIterations; i++) {
-            int index1 = random.nextInt(tour.size());
-            int index2 = random.nextInt(tour.size());
 
-            List<Vertex> newTour = reverseSublist(tour, Math.min(index1, index2), Math.max(index1, index2));
+            List<Vertex> newTour = TwoOpt.twoOpt(tour);
+
             double newDistance = GraphUtils.calculateTotalDistance(newTour, graph);
 
             if (shouldAcceptMove(bestDistance, newDistance, temperature)) {
@@ -29,7 +26,7 @@ public class SimulatedAnnealing {
                 bestDistance = newDistance;
                 bestTour = new ArrayList<>(newTour);
             }
-
+            if(temperature<1) break;
             temperature *= (1 - coolingRate);
         }
 
@@ -53,4 +50,4 @@ public class SimulatedAnnealing {
         reversedList.addAll(list.subList(end + 1, list.size()));
         return reversedList;
     }
-    }
+}
