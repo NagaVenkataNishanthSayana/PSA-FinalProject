@@ -38,7 +38,7 @@ class TwoOptTest {
         tour.add(v1);
 
         // Apply 2-opt to the tour
-        List<Vertex> newTour = TwoOpt.twoOpt(tour, graph, 1000, 60000);
+        List<Vertex> newTour = TwoOpt.twoOpt(tour);
 
         // Check that the new tour is shorter than the original tour
         int oldDistance = GraphUtils.calculateTotalDistance(tour, graph);
