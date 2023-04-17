@@ -42,12 +42,4 @@ public class SimulatedAnnealing {
         }
     }
 
-    public static List<Vertex> reverseSublist(List<Vertex> list, int start, int end) {
-        List<Vertex> reversedList = new ArrayList<>(list.subList(0, start));
-        for (int i = end; i >= start; i--) {
-            reversedList.add(list.get(i));
-        }
-        reversedList.addAll(list.subList(end + 1, list.size()));
-        return reversedList;
-    }
 }
