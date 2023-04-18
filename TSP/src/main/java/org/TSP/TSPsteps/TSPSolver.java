@@ -11,7 +11,6 @@ public class TSPSolver {
         // Step 1: Generate an Eulerian tour
         List<Vertex> tspPath=null;
         int minTSPTour=Integer.MAX_VALUE;
-        Vertex minVertex=null;
         for(Vertex start:multiGraph.keySet()){
             List<Vertex> eulerianTour = EulerianTour.generate(multiGraph,start);
             if (eulerianTour == null) {
@@ -20,12 +19,10 @@ public class TSPSolver {
             List<Vertex> hamiltonianCircuit = obtainHamiltonianCircuit(eulerianTour);
             int tspTourCost= GraphUtils.calculateTotalDistance(hamiltonianCircuit,graph);
             if(tspTourCost<minTSPTour){
-                minVertex=start;
                 minTSPTour=tspTourCost;
                 tspPath=hamiltonianCircuit;
             }
         }
-        System.out.println("Min Vertex:"+minVertex.getId());
         return tspPath;
     }
 

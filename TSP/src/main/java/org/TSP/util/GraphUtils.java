@@ -62,6 +62,11 @@ public class GraphUtils {
         return SloppyMath.haversinMeters(source.getLatitude(),source.getLongitude(),destination.getLatitude(),source.getLongitude());
     }
 
-
-
+    public static void printTour(List<Vertex> tour){
+        System.out.println("The Size of this tour is:"+tour.size());
+        System.out.print("Tour Path: ");
+        for(Vertex vertex:tour){
+            System.out.print(vertex.getId()+" ");
+        }
+    }
 }

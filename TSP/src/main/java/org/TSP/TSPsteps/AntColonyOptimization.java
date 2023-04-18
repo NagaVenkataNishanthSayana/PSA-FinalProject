@@ -36,12 +36,13 @@ public class AntColonyOptimization {
         for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++) {
             for (int ant = 0; ant < NUM_ANTS; ant++) {
                 List<Vertex> tour = buildTour();
-                updatePheromoneMatrix(tour);
                 double currentTourLength=calculateTourLength(tour);
                 if(currentTourLength<bestTourLength){
                     bestSolution=tour;
                 }
+                updatePheromoneMatrix(tour);
             }
+
         }
 
         return bestSolution;
