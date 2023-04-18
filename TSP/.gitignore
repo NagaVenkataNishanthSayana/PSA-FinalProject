@@ -1,1 +1,13 @@
-.idea
+# Default ignored files
+/shelf/
+/workspace.xml
+*.bak
+
+#Idea files
+.idea/*.xml
+*.iml
+*.iws
+
+# Maven
+log/
+target/
