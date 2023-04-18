@@ -4,7 +4,7 @@
 *.bak
 
 #Idea files
-.idea/*.xml
+.idea
 *.iml
 *.iws
 
