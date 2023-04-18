@@ -73,7 +73,7 @@ public class Main {
         System.out.println("Started Simulated Annealing - It takes about 350 seconds to run");
         BenchmarkTimer benchmarkTimerSmtA=new BenchmarkTimer();
         benchmarkTimerSmtA.start();
-        List<Vertex> annealedTour = SimulatedAnnealing.simulatedAnnealing(hamiltonCircuit, graphMap, 500, 0.001, 500000);
+        List<Vertex> annealedTour = SimulatedAnnealing.simulatedAnnealing(new ArrayList<>(hamiltonCircuit), graphMap, 1000, 0.001, 500000);
         benchmarkTimerSmtA.end();
         System.out.println("Simulated Annealing Cost: " + GraphUtils.calculateTotalDistance(annealedTour, graphMap));
         System.out.println("Time taken by Simulated Annealing method to execute (in seconds): " + benchmarkTimerSmtA.getElapsedTime());
